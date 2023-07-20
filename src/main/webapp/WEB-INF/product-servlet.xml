@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean
+		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+	<context:annotation-config />
+	<context:component-scan
+		base-package="productapp" />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		name="viewresolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+<bean class="org.springframework.jdbc.core.JdbcTemplate" name="jdbcTemplate" p:dataSource-ref="ds" />
+<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="ds"
+p:driverClassName="com.mysql.cj.jdbc.Driver"
+p:url="jdbc:mysql://localhost:3306/productapp"
+p:username="root"
+p:password="Mahesh0708@">
+</bean>
+<bean class="productapp.controller.MainController" name="mainController" p:productServiceImpl-ref="productServiceImpl" />
+<bean class="productapp.service.ProductServiceImpl" name="productServiceImpl" p:productDaoImpl-ref="productDaoImpl" />
+<bean class="productapp.dao.ProductDaoImpl" name="productDaoImpl" p:jdbcTemplate-ref="jdbcTemplate" />
+</beans>
